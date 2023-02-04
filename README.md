@@ -25,6 +25,10 @@
    ![](https://cdn.wgbor.cn/uploads/2023/02/02/167532567063db70e6d4724.png)
 5. 访问域名即可！
 
+## 视频教程
+
+[视频地址](https://www.bilibili.com/video/BV1MY411D7vD/)
+
 ## Tips
 
 - 默认账号密码为`admin` `123456`
@@ -57,5 +61,5 @@ location / {
 ## 问题反馈
 
 - 邮箱： `i@kain8.cn`
-- QQ群：`758107405`
+- QQ 群：`758107405`
 - QQ：`1361582519`

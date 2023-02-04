@@ -132,7 +132,7 @@ clipboard.on('error', (e) => {
     document.querySelector('.copy');
     notify("复制失败", "warning");
 });
-
+console.log(atob("R2l0SHViID0+IGh0dHBzOi8vZ2l0aHViLmNvbS9rYWluZGV2OC9zdGFyTVE="));
 
 function delLog ()
 {
@@ -185,6 +185,7 @@ function rekey()
         });
     });
 }
-
+console.log("尊重开源精神！！！");
+console.log("要求不高，保留此版权即可！！！");
 
 
