@@ -134,17 +134,16 @@ clipboard.on('error', (e) => {
 });
 console.log(atob("R2l0SHViID0+IGh0dHBzOi8vZ2l0aHViLmNvbS9rYWluZGV2OC9zdGFyTVE="));
 
-function delLog ()
-{
+function delLog() {
     layer.confirm("确定要清除所有未支付订单吗？", {
         btn: ['确定', '取消'], closeBtn: 0,
-    },()=>{
+    }, () => {
         $.ajax({
-            url:"/Order/delorder",
-            type:"POST",
-            cache:false,
-            dataType:"json",
-            success:res =>{
+            url: "/Order/delorder",
+            type: "POST",
+            cache: false,
+            dataType: "json",
+            success: res => {
                 if (res.code == 200) {
                     setTimeout(() => {
                         location.reload();
@@ -160,17 +159,26 @@ function delLog ()
     });
 }
 
-function rekey()
-{
+setTimeout(() => {
+    notify("开源免费项目，如果你花钱买的", "info");
+}, 1000);
+setTimeout(() => {
+    notify("那么恭喜你被骗了！嘻嘻", "info");
+}, 2000);
+setTimeout(() => {
+    notify("官方QQ群：758107405", "info");
+}, 3000);
+
+function rekey() {
     layer.confirm("确定要重置密钥吗？", {
         btn: ['确定', '取消'], closeBtn: 0,
-    },()=>{
+    }, () => {
         $.ajax({
-            url:"/Set/rekey",
-            type:"POST",
-            cache:false,
-            dataType:"json",
-            success:res =>{
+            url: "/Set/rekey",
+            type: "POST",
+            cache: false,
+            dataType: "json",
+            success: res => {
                 if (res.code == 200) {
                     setTimeout(() => {
                         location.reload();
