@@ -62,7 +62,7 @@ class Pay extends Base
             return View::fetch();
         }
         $is_orderNo = Db::name('order')->where('pay_id', $data['out_trade_no'])->find();
-        if ($is_orderNo && $is_orderNo['account_id'] != 0) {
+        if ($is_orderNo && $is_orderNo['pay_id'] != 0) {
             View::assign('error_tips', "订单号重复,请重新发起");
             return View::fetch();
         }
@@ -163,9 +163,9 @@ class Pay extends Base
 
             $res['price'] = number_format($res['price'], 2, ".", "");
             $res['really_price'] = number_format($res['really_price'], 2, ".", "");
-            
-            $u = $this->create_call($res,$key);
-            
+
+            $u = $this->create_call($res, $key);
+
             return json(['code' => 200, 'msg' => '订单支付成功!', 'url' => $u['return']]);
         }
         $db = Db::name("order")->where("order_id", $orderId)->find();
@@ -181,7 +181,5 @@ class Pay extends Base
             "time" => $time
         ]);
         return View::fetch();
-
     }
-    
 }
