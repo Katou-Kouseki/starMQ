@@ -7,7 +7,7 @@
 - 基于[ThinkPHP](https://www.thinkphp.cn/)框架开发
 - 开源不意味着可以恶意倒卖！尊重开源精神！
 
-## 本项目由![星云数据](https://cloud.staridc.cn)独家赞助！
+## 本项目由[星云数据](https://cloud.staridc.cn)独家赞助！
 
 ## 运行环境
 
