@@ -92,7 +92,7 @@ class Pay extends Base
             }
         }
         if (!$ok) {
-            return json($this->getReturn(-1, "订单超出负荷，请稍后重试"));
+            return json(["code" => -1, "msg" => "订单超出负荷，请稍后重试"]);
         }
 
         $reallyPrice = bcdiv($reallyPrice, 100, 2);
