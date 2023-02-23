@@ -1,0 +1,69 @@
+{extend name="user/header" /}
+{block name="main"}
+<!--作者: 深秋-->
+<!--QQ : 1361582519-->
+<!--官方QQ群: 758107405-->
+<!--GitHub: https://github.com/kaindev8/starMQ-->
+<!--保留版权信息，尊重开源精神!-->
+<!--禁止修改此文件!-->
+<div class="content">
+    <div class="animated fadeIn">
+
+
+        <div class="col-12">
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title text-earth-light">
+                        <i class="fa fa-user me-1"></i>个人信息
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="block block-rounded">
+            <div class="block-content">
+                <div class="row items-push">
+                    <div class="col-12 ">
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="nickname">昵称</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="nickname" name="nickname" value="{$u.nickname}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="username">用户名</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="username" name="username" value="{$u.username}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="qq">QQ</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="qq" name="qq" value="{$u.qq}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="email">邮箱</label>
+                            <input type="email" autocomplete="off" class="form-control form-control-lg" id="email" name="email" value="{$u.email}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="password">密码</label>
+                            <input type="password" autocomplete="off" class="form-control form-control-lg" id="password" name="password" placeholder="不修改请留空">
+                        </div>
+
+                        <div class="mb-4">
+                            <button class="btn btn-alt-primary" id="uc" onclick="uc()" type="submit">
+                                修改
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+{/block}

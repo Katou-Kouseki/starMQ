@@ -1,0 +1,105 @@
+{extend name="user/header" /}
+{block name="main"}
+
+<!--作者: 深秋-->
+<!--QQ : 1361582519-->
+<!--官方QQ群: 758107405-->
+<!--GitHub: https://github.com/kaindev8/starMQ-->
+<!--保留版权信息，尊重开源精神!-->
+<!--禁止修改此文件!-->
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="col-12">
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title text-earth-light">
+                        <i class="fa fa-gear me-1"></i>系统设置
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="block block-rounded">
+            <div class="block-content">
+                <div class="row items-push">
+                    <div class="col-12 ">
+
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <div class="form-floating">
+                                    <input type="number" autocomplete="off" class="form-control form-control-lg" id="close_time" name="close_time" value="{$c.close_time}">
+                                    <label class="text-info" for="close_time">订单有效期</label>
+                                </div>
+                                <span class="input-group-text text-success">单位(秒)</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="sitename">网站名称</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="sitename" name="sitename" value="{$c.sitename}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="desc">网站描述</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="desc" name="desc" value="{$c.desc}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="yuyin">支付语音提示</label>
+                            <select class="form-control form-control-lg" id="yuyin">
+                                {if $c.yuyin == "0"}
+                                <option value="0" selected>关闭</option>
+                                <option value="1">开启</option>
+                                {else if $c.yuyin == "1"}
+                                <option value="0">关闭</option>
+                                <option value="1" selected>开启</option>
+                                {/if}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="tips">支付页面提示</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="tips" name="tips" value="{$c.tips}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="is_tips">APP监控异常提醒</label>
+                            <select class="form-control form-control-lg" id="is_tips">
+                                {if $c.is_tips == "0"}
+                                <option value="0" selected>关闭</option>
+                                <option value="1">开启</option>
+                                {else if $c.is_tips == "1"}
+                                <option value="0">关闭</option>
+                                <option value="1" selected>开启</option>
+                                {/if}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="beian">ICP备案号</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="beian" name="beian" value="{$c.beian}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="callback">异步通知方式</label>
+                            <select class="form-control form-control-lg" id="callback">
+                                {if $c.callback == "0"}
+                                <option value="0" selected>GET</option>
+                                <option value="1">POST</option>
+                                {else if $c.callback == "1"}
+                                <option value="0">GET</option>
+                                <option value="1" selected>POST</option>
+                                {/if}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <button class="btn btn-alt-primary" id="sub" onclick="conf()" type="submit">
+                                提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{/block}

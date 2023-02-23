@@ -14,6 +14,6 @@ Route::get('think', function () {
     return 'hello,ThinkPHP6!';
 });
 
+Route::get('job', 'index/job');//计划任务
 Route::get('appHeart', 'index/appHeart');
 Route::get('appPush', 'index/appPush');
-Route::get('getState', 'index/getState');

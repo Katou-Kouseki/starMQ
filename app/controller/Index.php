@@ -1,51 +1,36 @@
 <?php
-
+/**
+ * 作者: 深秋
+ * QQ : 1361582519
+ * 官方QQ群: 758107405
+ * GitHub: https://github.com/kaindev8/starMQ
+ * 保留版权信息，尊重开源精神!
+ * 禁止修改此文件!
+ */
 namespace app\controller;
 
-use star\Epay;
+use app\model\Config as C;
 use star\Http;
-use think\facade\View;
-use think\facade\Db;
 
 class Index extends Base
 {
-
-
     public function index()
     {
-        return View::fetch();
+        $this->assign($this->conf()); //模板变量赋值
+        return $this->fetch();//渲染视图
     }
-
-
-    //获取监控端状态
-    public function getState()
-    {
-        $key = Db::name("setting")->where("key", "key")->find()['val'];
-        $t = input("t");
-        $_sign = $t . $key;
-        if (md5($_sign) != input("sign")) {
-            return json(["code" => -1, "msg" => "签名校验不通过", "data" => null]);
-        }
-        $lastheart = Db::name("setting")->where("key", "lastheart")->find()['val'];
-        $lastpay = Db::name("setting")->where("key", "lastpay")->find()['val'];
-        $jkstate = Db::name("setting")->where("key", "jkstate")->find()['val'];
-        return json(["code" => 1, "msg" => "成功", "data" => ["lastheart" => $lastheart, "lastpay" => $lastpay, "jkstate" => $jkstate]]);
-    }
-
 
     //App心跳接口
     public function appHeart()
     {
-        $this->closeEndOrder();
-
-        $key = Db::name("setting")->where("key", "key")->find()['val'];
+        $key = $this->data["c"]["appkey"];
         $t = input("t");
         $_sign = $t . $key;
         if (md5($_sign) != input("sign")) {
             return json(["code" => -1, "msg" => "签名校验不通过", "data" => null]);
         }
-        Db::name("setting")->where("key", "lastheart")->update(["val" => time()]);
-        Db::name("setting")->where("key", "jkstate")->update(["val" => 1]);
+        C::where("key", "app_heart")->update(["val" => time()]);
+        C::where("key", "app_status")->update(["val" => 1]);
         return json(["code" => 1, "msg" => "成功", "data" => null]);
     }
 
@@ -53,68 +38,57 @@ class Index extends Base
     //App推送付款数据接口
     public function appPush()
     {
-        $this->closeEndOrder();
-
-        $key = Db::name("setting")->where("key", "key")->find()['val'];
+        $key = $this->data["c"]["appkey"];
         $t = input("t");
         $type = input("type");
-        $price = input("price");
-        $_sign = $type . $price . $t . $key;
+        $money = input("money");
+        $_sign = $type . $money . $t . $key;
         if (md5($_sign) != input("sign")) {
             return json(["code" => -1, "msg" => "签名校验不通过", "data" => null]);
         }
-        Db::name("setting")
-            ->where("key", "lastpay")
-            ->update([
-                "val" => time()
-            ]);
 
-        $res = Db::name("order")
-            ->where("really_price", $price)
-            ->where("state", 0)
+        $res = \app\model\Order::where("really_money", $money)
+            ->where("status", 0)
             ->where("type", $type)
             ->find();
 
-
         if ($res) {
-            Db::name("price")
-                ->where("oid", $res['order_id'])
-                ->delete();
-            Db::name("order")->where("id", $res['id'])->update([
-                "state" => 1,
-                "pay_date" => time(),
-                "close_date" => time()
+            \app\model\Order::where("id", $res['id'])->update([
+                "status" => 1,
+                "pay_time" => time()
             ]);
-            $url = $res['notify_url'];
-            $key = Db::name("setting")->where("key", "key")->find()['val'];
+            $res["pid"] = $this->data["c"]["appid"];
             $u = $this->create_call($res,$key);
-            $re = Http::get($u['notify']);
+            if ($this->data["c"]["callback"] == "0"){
+                $re = Http::get($u['notify']);
+            }else{
+                $re = Http::post($u['notify']);
+            }
             if ($re == "success") {
                 return json(["code" => 1, "msg" => "成功", "data" => null]);
             } else {
-                Db::name("order")->where("id", $res['id'])->update(["state" => 0]);
+                \app\model\Order::where("id", $res['id'])->update(["state" => 0]);
                 return json(["code" => 1, "msg" => "异步通知失败", "data" => null]);
             }
-        } else {
-            $data = [
-                "close_date" => 0,
-                "create_date" => time(),
-                "is_auto" => 0,
-                "notify_url" => "",
-                "order_id" => "无订单转账",
-                "param" => "无订单转账",
-                "pay_date" => 0,
-                "pay_id" => "无订单转账",
-                "pay_url" => "",
-                "price" => $price,
-                "really_price" => $price,
-                "return_url" => "",
-                "state" => 1,
-                "type" => $type
-            ];
-            Db::name("order")->insert($data);
-            return json(["code" => 1, "msg" => "成功", "data" => null]);
         }
     }
 
+    /**
+     * 计划任务监控
+     *
+     * @return void
+     */
+    public function job()
+    {
+        if ((time() - 60) > $this->data["c"]["app_heart"]){
+            C::where("key", "app_status")->update(["val" => 0]);
+            if ($this->data["c"]["is_tips"] == "1"){
+                $this->mail("APP监控异常");
+                return;
+            }
+            echo '{"code": 201, "msg": "APP监控异常", "time": '.time().'}\n';
+        } else{
+            echo '{"code": 200, "msg": "APP监控正常", "time": '.time().'}\n';
+        }
+    }
 }

@@ -1,0 +1,107 @@
+{extend name="user/header" /}
+{block name="main"}
+<!--作者: 深秋-->
+<!--QQ : 1361582519-->
+<!--官方QQ群: 758107405-->
+<!--GitHub: https://github.com/kaindev8/starMQ-->
+<!--保留版权信息，尊重开源精神!-->
+<!--禁止修改此文件!-->
+<div class="content">
+
+    <div class="col-12 animated fadeIn">
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title text-earth-light">
+                    <i class="far fa-clipboard me-1"></i>操作日志
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-xl-12">
+            <div class="block block-rounded">
+                <div class="block-content block-content-full">
+                    <div class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        {if count($g) == 0}
+                            <h5 class="text-center">暂无数据</h5>
+                        {else}
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-sm btn-alt-primary me-1" onclick="delog()">清除日志
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive  no-footer dtr-inline"
+                                       id="task-logs-list" data-type="sport" aria-describedby="task-logs-list_info">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px;text-align: center;">
+                                            ID
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            操作IP
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            操作时间
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            操作事件
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            事件状态
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            地址
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="g" id="v"}
+                                    <tr class="odd">
+                                        <td style="text-align: center;" class="fs-sm">
+                                            {$v.id}
+                                        </td>
+                                        <td style="text-align: center">{$v.ip}</td>
+                                        <td style="text-align: center;">{$v.time|date='Y-m-d H:i:s'}</td>
+
+                                        <td style="text-align: center">{$v.event}</td>
+
+                                        {if $v.status == 1}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-info-light text-success">成功</span>
+                                        </td>
+                                        {else if $v.status == 0}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-info-light text-danger">失败</span>
+                                        </td>
+                                        {/if}
+                                        <td style="text-align: center;">{$v.addres}</td>
+                                    </tr>
+                                    {/volist}
+                                    {/if}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--分页-->
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_full_numbers" id="task-logs-list_paginate">
+                                {$x|raw}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{/block}

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @Describe:
+ * @FileName: Epay.php
+ * @Date    : 2023/2/23
+ * @Author  : 深秋.
+ * @Email   : <i@kain8.cn>
+ */
 
 namespace star;
 

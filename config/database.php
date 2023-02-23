@@ -23,42 +23,22 @@ return [
         'mysql' => [
             // 数据库类型
             'type'            => env('database.type', 'mysql'),
-
-
-
-
-
-            //========================================================================================
-            //只需要修改下面的内容，其他的不需要改
-            //========================================================================================
             // 服务器地址
-            'hostname'        => '127.0.0.1', //默认不需要改
+            'hostname'        => env('database.hostname', '127.0.0.1'),
             // 数据库名
-            'database'        => 'star', //填写数据库名
+            'database'        => env('database.database', ''),
             // 用户名
-            'username'        => 'star', //填写数据库用户名
+            'username'        => env('database.username', 'root'),
             // 密码
-            'password'        => '123456', //填写数据库密码
+            'password'        => env('database.password', ''),
             // 端口
-            'hostport'        => '3306', //默认3306不需要改
-            //==========================================================================================
-
-
-
-
-
-
-
-
-
-
-
+            'hostport'        => env('database.hostport', '3306'),
             // 数据库连接参数
             'params'          => [],
             // 数据库编码默认采用utf8
             'charset'         => env('database.charset', 'utf8'),
             // 数据库表前缀
-            'prefix'          => env('database.prefix', 'star_'),
+            'prefix'          => env('database.prefix', ''),
 
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'          => 0,

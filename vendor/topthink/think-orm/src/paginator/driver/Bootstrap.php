@@ -121,7 +121,7 @@ class Bootstrap extends Paginator
                 );
             } else {
                 return sprintf(
-                    '<ul class="pagination">%s %s %s</ul>',
+                    '<ul class="pagination pagination-sm">%s %s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getLinks(),
                     $this->getNextButton()
@@ -139,7 +139,7 @@ class Bootstrap extends Paginator
      */
     protected function getAvailablePageWrapper(string $url, string $page): string
     {
-        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        return '<li class="page-item"><a class="page-link" data-pjax href="' . htmlentities($url) . '">' . $page . '</a></li>';
     }
 
     /**
@@ -150,7 +150,7 @@ class Bootstrap extends Paginator
      */
     protected function getDisabledTextWrapper(string $text): string
     {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
+        return '<li class="page-item"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**
@@ -161,7 +161,7 @@ class Bootstrap extends Paginator
      */
     protected function getActivePageWrapper(string $text): string
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="active page-item"><span class="page-link">' . $text . '</span></li>';
     }
 
     /**

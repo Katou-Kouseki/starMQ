@@ -4,15 +4,19 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
+class ComposerStaticInit93e86bf72fe4d4e5018a59d3a5021a31
 {
     public static $files = array (
-        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
-        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -20,8 +24,12 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         array (
             'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
-            'think\\app\\' => 10,
+            'think\\captcha\\' => 14,
             'think\\' => 6,
+        ),
+        'm' => 
+        array (
+            'mailer\\' => 7,
         ),
         'a' => 
         array (
@@ -32,13 +40,21 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
+            'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Contracts\\EventDispatcher\\' => 34,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mailer\\' => 25,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
         ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
         ),
@@ -50,15 +66,12 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         ),
         'E' => 
         array (
-            'Endroid\\QrCode\\' => 15,
+            'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
         array (
-            'DASPRiD\\Enum\\' => 13,
-        ),
-        'B' => 
-        array (
-            'BaconQrCode\\' => 12,
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\Common\\Lexer\\' => 22,
         ),
     );
 
@@ -71,9 +84,9 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
         ),
-        'think\\app\\' => 
+        'think\\captcha\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-multi-app/src',
+            0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
         ),
         'think\\' => 
         array (
@@ -82,6 +95,10 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
             2 => __DIR__ . '/..' . '/topthink/think-helper/src',
             3 => __DIR__ . '/..' . '/topthink/think-orm/src',
             4 => __DIR__ . '/..' . '/topthink/think-template/src',
+        ),
+        'mailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yzh52521/think-mail/src/mailer',
         ),
         'app\\' => 
         array (
@@ -99,9 +116,37 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Symfony\\Contracts\\Service\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
+        ),
+        'Symfony\\Contracts\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts',
+        ),
         'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
+        ),
+        'Symfony\\Component\\Mime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\Mailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mailer',
+        ),
+        'Symfony\\Component\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -114,6 +159,10 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
         'Psr\\Container\\' => 
         array (
@@ -135,17 +184,17 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
-        'Endroid\\QrCode\\' => 
+        'Egulias\\EmailValidator\\' => 
         array (
-            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+            0 => __DIR__ . '/..' . '/egulias/email-validator/src',
         ),
-        'DASPRiD\\Enum\\' => 
+        'Doctrine\\Deprecations\\' => 
         array (
-            0 => __DIR__ . '/..' . '/dasprid/enum/src',
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
         ),
-        'BaconQrCode\\' => 
+        'Doctrine\\Common\\Lexer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+            0 => __DIR__ . '/..' . '/doctrine/lexer/src',
         ),
     );
 
@@ -156,6 +205,7 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
@@ -165,10 +215,10 @@ class ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit9d8d79fc6a90d41ab43a7136ad6e83e2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit93e86bf72fe4d4e5018a59d3a5021a31::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit93e86bf72fe4d4e5018a59d3a5021a31::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit93e86bf72fe4d4e5018a59d3a5021a31::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit93e86bf72fe4d4e5018a59d3a5021a31::$classMap;
 
         }, null, ClassLoader::class);
     }

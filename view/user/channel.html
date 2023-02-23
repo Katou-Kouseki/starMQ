@@ -1,0 +1,185 @@
+{extend name="user/header" /}
+{block name="main"}
+<!--作者: 深秋-->
+<!--QQ : 1361582519-->
+<!--官方QQ群: 758107405-->
+<!--GitHub: https://github.com/kaindev8/starMQ-->
+<!--保留版权信息，尊重开源精神!-->
+<!--禁止修改此文件!-->
+<div class="content">
+
+    <div class="col-12 animated fadeIn">
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title text-earth-light">
+                    <i class="fa fa-qrcode me-1"></i>通道管理
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-xl-12">
+            <div class="block block-rounded">
+                <div class="block-content block-content-full">
+                    <div class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        {if count($g) == 0}
+                        <h5 class="text-center">暂无数据</h5>
+                        {else}
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-sm btn-alt-primary me-1" data-bs-toggle="modal" data-bs-target="#add">
+                                    <i class="fa fa-circle-plus me-1"></i>新增通道
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive  no-footer dtr-inline"
+                                       id="task-logs-list" data-type="sport" aria-describedby="task-logs-list_info">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px;text-align: center;">
+                                            ID
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            通道类型
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            监控类型
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            是否启用
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            创建时间
+                                        </th>
+                                        <th style="text-align: center;" rowspan="1" colspan="1">
+                                            操作
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="d" id="v"}
+                                    <tr class="odd">
+                                        <td style="text-align: center;" class="fs-sm">
+                                            {$v.id}
+                                        </td>
+                                        {if $v.type == "wxpay"}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-success-light text-success">微信</span>
+                                        </td>
+                                        {else if $v.type == "alipay"}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-info-light text-info">支付宝</span>
+                                        </td>
+                                        {/if}
+
+
+                                        {if $v.jk == 0}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-success-light text-success">PC</span>
+                                        </td>
+                                        {else if $v.jk == 1}
+                                        <td style="text-align: center;">
+                                            <span class="badge bg-info-light text-info">APP</span>
+                                        </td>
+                                        {/if}
+
+                                        {if $v.status == 1}
+                                        <td style="text-align: center;">
+                                                <div class="form-switch">
+                                                    <input onchange="changestatus('{$v.id}', 0)" class="form-check-input" type="checkbox" checked="">
+                                                </div>
+                                        </td>
+                                        {else if $v.status == 0}
+                                        <td style="text-align: center;">
+                                            <div class="form-switch">
+                                                <input onchange="changestatus('{$v.id}', 1)" class="form-check-input" type="checkbox">
+                                            </div>
+                                        </td>
+                                        {/if}
+                                        <td style="text-align: center;">{$v.time|date='Y-m-d H:i:s'}</td>
+                                        <td style="text-align: center;">
+                                            <button type="button" onclick="delchannel('{$v.id}')"
+                                                    class="btn btn-sm btn-danger js-bs-tooltip-enabled" title="删除">
+                                                <i class="fa fa-trash-can"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    {/if}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--分页-->
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_full_numbers" id="task-logs-list_paginate">
+                                {$a|raw}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add" tabindex="-1" aria-labelledby="add" style="display: none;"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popin" role="document">
+            <div class="modal-content">
+                <div class="block block-rounded shadow-none mb-0">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">新增通道</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content fs-sm">
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="channeltype">通道类型</label>
+                            <select class="form-control form-control-lg" id="channeltype">
+                                <option value="wxpay" selected>微信</option>
+                                <option value="alipay">支付宝</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="jktype">监控类型</label>
+                            <select class="form-control form-control-lg" id="jktype">
+                                <option value="1" selected>APP</option>
+                                <option value="0">PC</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label" for="imgcode">上传收款码</label>
+                            <input class="form-control" type="file" name="imgcode" id="imgcode">
+                        </div>
+
+                        <div class="mb-4">
+                            <button type="button" class="btn btn-lg btn-alt-primary" id="addchannel"
+                                    data-bs-dismiss="modal" onclick="addchannel()">
+                                提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+{/block}

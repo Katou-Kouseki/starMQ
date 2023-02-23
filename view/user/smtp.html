@@ -1,0 +1,58 @@
+{extend name="user/header" /}
+{block name="main"}
+<!--作者: 深秋-->
+<!--QQ : 1361582519-->
+<!--官方QQ群: 758107405-->
+<!--GitHub: https://github.com/kaindev8/starMQ-->
+<!--保留版权信息，尊重开源精神!-->
+<!--禁止修改此文件!-->
+<div class="content">
+
+    <div class="col-12 animated fadeIn">
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title text-earth-light">
+                    <i class="far fa-envelope me-1"></i>发信设置
+                </h3>
+            </div>
+        </div>
+
+        <div class="block block-rounded">
+            <div class="block-content">
+                <div class="row items-push">
+                    <div class="col-12 ">
+
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="smtp_host">邮箱主机</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="smtp_host" name="smtp_host" value="{$c.smtp_host}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="smtp_port">邮箱端口</label>
+                            <input type="number" autocomplete="off" class="form-control form-control-lg" id="smtp_port" name="smtp_port" value="{$c.smtp_port}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="smtp_user">邮箱账号</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="smtp_user" name="smtp_user" value="{$c.smtp_user}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-info" for="smtp_pass">邮箱密码</label>
+                            <input type="text" autocomplete="off" class="form-control form-control-lg" id="smtp_pass" name="smtp_pass" value="{$c.smtp_pass}">
+                        </div>
+                        <div class="mb-4">
+                            <button class="btn btn-alt-primary" id="smtp" onclick="smtp()" type="submit">
+                                提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{/block}

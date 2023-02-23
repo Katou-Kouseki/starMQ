@@ -1,19 +1,26 @@
 <?php
+/**
+ * @Describe:
+ * @FileName: Pay.php
+ * @Date    : 2023/2/23
+ * @Author  : 深秋.
+ * @Email   : <i@kain8.cn>
+ */
 
 namespace app\controller;
 
 use star\Epay;
-use think\facade\Db;
 use think\facade\Request;
 use think\facade\View;
+use app\model\Order as O;
+use app\model\Code as C;
 
 class Pay extends Base
 {
-
     public function submit()
     {
-        $this->closeEndOrder();
-        $key = Db::name("setting")->where('key', "key")->find()['val'];
+        //        $this->closeEndOrder();
+        $key = $this->data["c"]["appkey"];
         $data = Request::param('', '', 'strip_tags');
         if (empty($data['pid'])) {
             View::assign('error_tips', "PID不可为空");
@@ -27,17 +34,13 @@ class Pay extends Base
             View::assign('error_tips', "支付类型不可为空");
             return View::fetch();
         }
-        if ($data['notify_url']) {
-            $notify_url = $data["notify_url"];
-        } else {
-            $res = Db::name("setting")->where("key", "notifyUrl")->find();
-            $notify_url = $res['val'];
+        if (empty($data['notify_url'])) {
+            View::assign('error_tips', "异步通知地址不可为空");
+            return View::fetch();
         }
-        if ($data['return_url']) {
-            $return_url = $data["return_url"];
-        } else {
-            $res = Db::name("setting")->where("key", "returnUrl")->find();
-            $return_url = $res['val'];
+        if (empty($data['return_url'])) {
+            View::assign('error_tips', "同步通知地址不可为空");
+            return View::fetch();
         }
         if (empty($data['name'])) {
             View::assign('error_tips', "商品名称不可为空");
@@ -47,7 +50,7 @@ class Pay extends Base
             View::assign('error_tips', "金额不可为空");
             return View::fetch();
         }
-        if ($data['pid'] != 1000) {
+        if ($data['pid'] != $this->data["c"]["appid"]) {
             View::assign('error_tips', "商户不存在");
             return View::fetch();
         }
@@ -61,124 +64,104 @@ class Pay extends Base
             View::assign('error_tips', "验签失败,请检查PID或者Key是否正确");
             return View::fetch();
         }
-        $is_orderNo = Db::name('order')->where('pay_id', $data['out_trade_no'])->find();
-        if ($is_orderNo && $is_orderNo['pay_id'] != 0) {
+        $is_orderNo = O::where('out_trade_no', $data['out_trade_no'])->find();
+        if ($is_orderNo) {
             View::assign('error_tips', "订单号重复,请重新发起");
             return View::fetch();
         }
-
-        $jkstate = Db::name("setting")->where("key", "jkstate")->find()['val'];
-        if ($jkstate != "1") {
+        $appjk = $this->data["c"]["app_status"];//app监控状态
+        $pcjk = $this->data["c"]["pc_status"];//PC监控状态
+        if ($appjk != "1" || $pcjk != "1") {
             View::assign('error_tips', "监控端状态异常，请检查");
             return View::fetch();
         }
-        $reallyPrice = bcmul($data["money"], 100);
+        $reallyMoney = bcmul($data["money"], 100);
 
-        $payQf = Db::name("setting")->where("key", "payQf")->find()['val'];
-        $orderId = "StarMQ-Pay" . date("YmdHms") . rand(1, 9) . rand(1, 9) . rand(1, 9) . rand(1, 9);
-        $ok = false;
-        for ($i = 0; $i < 10; $i++) {
-            $tmpPrice = $reallyPrice . "-" . $data["type"];
-
-            $row = Db::execute("INSERT IGNORE INTO star_price (price,oid) VALUES ('" . $tmpPrice . "','" . $orderId . "')");
-            if ($row) {
-                $ok = true;
+        $trade_no = "S-" . date("YmdHis") . rand(1, 9) . rand(1, 9) . rand(1, 9) . rand(1, 9);
+        $order = O::where("status", 0)->select()->toArray();
+        foreach ($order as $k => $v){
+            if ($v["create_time"] < (time()-$this->data["c"]["close_time"]) ){
+                if ($v["money"] == $reallyMoney){
+                    $reallyMoney ++;
+                }else{
+                    break;
+                }
+            }else{
                 break;
             }
-            if ($payQf == 1) {
-                $reallyPrice++;
-            } else if ($payQf == 2) {
-                $reallyPrice--;
-            }
-        }
-        if (!$ok) {
-            return json(["code" => -1, "msg" => "订单超出负荷，请稍后重试"]);
         }
 
-        $reallyPrice = bcdiv($reallyPrice, 100, 2);
+        $reallyMoney = bcdiv($reallyMoney, 100, 2);
 
-        if ($data["type"] == "wxpay") {
-            $payUrl = Db::name("setting")->where("key", "wxpay")->find()['val'];
-        } else if ($data["type"] == "alipay") {
-            $payUrl = Db::name("setting")->where("key", "zfbpay")->find()['val'];
-        }
-        if ($payUrl == "") {
-            View::assign('error_tips', "请您先进入后台配置程序");
-            return View::fetch();
-        }
-        $isAuto = 1;
-        $_payUrl = Db::name("qrcode")
-            ->where("price", $reallyPrice)
-            ->where("type", $data["type"])
-            ->find();
-        if ($_payUrl) {
-            $payUrl = $_payUrl['pay_url'];
-            $isAuto = 0;
-        }
-
-
-        $createDate = time();
         $db = [
-            "close_date" => 0,
-            "create_date" => $createDate,
-            "is_auto" => $isAuto,
-            "notify_url" => $notify_url,
-            "order_id" => $orderId,
-            "param" => "",
-            "pay_date" => 0,
-            "pay_id" => $data["out_trade_no"],
-            "pay_url" => $payUrl,
-            "price" => $data["money"],
-            "really_price" => $reallyPrice,
-            "return_url" => $return_url,
-            "state" => 0,
+            "create_time" => time(),
+            "pay_time" => 0,
+            "out_trade_no" => $data["out_trade_no"],
+            "trade_no" => $trade_no,
             "name" => $data["name"],
-            "type" => $data["type"]
-
+            "money" => $data["money"],
+            "really_money" => $reallyMoney,
+            "sitename" => isset($data["sitename"]) ? $data["sitename"] : '',
+            "ip" => Request::ip(),
+            "return_url" => $data["return_url"],
+            "notify_url" => $data["notify_url"],
+            "type" => $data["type"],
+            "status" => 0,
         ];
-        Db::name("order")->insert($db);
-        exit("<script>window.location.href='/Pay/console?orderId={$orderId}';</script>");
+        $res = O::insert($db);
+        if ($res){
+            exit("<script>window.location.href='/Pay/console?trade_no={$trade_no}';</script>");
+        }else{
+            View::assign('error_tips', "订单生成错误,请重新发起支付");
+            return $this->fetch();
+        }
     }
 
-    public function console($orderId = '')
+    public function console($trade_no = "")
     {
         if (Request::isPost()) {
             $data = Request::param('', '', 'strip_tags');
-            $orderId = $data['orderId'];
+            $trade_no = $data['trade_no'];
 
-            if (empty($orderId)) {
+            if (empty($trade_no)) {
                 return json(['code' => 0, 'msg' => '订单号为空!']);
             }
-            $res = Db::name('order')->where('order_id', $orderId)->find();
+            $res = O::where('trade_no', $trade_no)->find();
             if (empty($res)) {
                 return json(['code' => 0, 'msg' => '订单不存在!']);
             }
-            if ($res['state'] == -1) {
+            if ($res['status'] == -1) {
                 return json(['code' => 0, 'msg' => '订单已过期!']);
             }
-            if ($res['state'] == 0) {
+            if ($res['status'] == 0) {
                 return json(['code' => 0, 'msg' => '获取二维码成功!']);
             }
-            $key = Db::name("setting")->where("key", "key")->find()["val"];
+            $key = $this->data["c"]["appkey"];
+            $res["pid"] = $this->data["c"]["appid"];
+            $res['money'] = number_format($res['money'], 2, ".", "");
+            $res['really_money'] = number_format($res['really_money'], 2, ".", "");
 
-            $res['price'] = number_format($res['price'], 2, ".", "");
-            $res['really_price'] = number_format($res['really_price'], 2, ".", "");
-
-            $u = $this->create_call($res, $key);
-
+            $u = $this->create_call($res,$key);
             return json(['code' => 200, 'msg' => '订单支付成功!', 'url' => $u['return']]);
         }
-        $db = Db::name("order")->where("order_id", $orderId)->find();
-        $time = $db["close_date"];
-        $type = $db['type'];
-        $money = $db['really_price'];
-        $pay_url = $db["pay_url"];
+        $db = O::where("trade_no", $trade_no)->find();
+        $pay_url = C::where("type", $db["type"])->select()->toArray();
+        $pay_url = $pay_url[rand(0, (count($pay_url) -1) )]["url"];  //随机取一条收款码
+        $time = $this->data["c"]["close_time"]; //订单关闭时间
+        $type = $db['type']; //支付类型
+        $money = $db['really_money']; //支付金额
+        $tips = $this->data["c"]["tips"]; //提示
+        $yuyin = $this->data["c"]["yuyin"]; //语音
+        $name = $db["name"];
         View::assign([
-            "order" => $orderId,
+            "order" => $trade_no,
             "type" => $type,
             "money" => $money,
             "payurl" => $pay_url,
-            "time" => $time
+            "time" => $time,
+            "tips" => $tips,
+            "yuyin" => $yuyin
+            ,"name" =>$name
         ]);
         return View::fetch();
     }
