@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @Describe:
  * @FileName: Pay.php
@@ -69,9 +70,9 @@ class Pay extends Base
             View::assign('error_tips', "订单号重复,请重新发起");
             return View::fetch();
         }
-        $appjk = $this->data["c"]["app_status"];//app监控状态
-        $pcjk = $this->data["c"]["pc_status"];//PC监控状态
-        if ($appjk != "1" || $pcjk != "1") {
+        $appjk = $this->data["c"]["app_status"]; //app监控状态
+
+        if ($appjk != "1") {
             View::assign('error_tips', "监控端状态异常，请检查");
             return View::fetch();
         }
@@ -79,14 +80,14 @@ class Pay extends Base
 
         $trade_no = "S-" . date("YmdHis") . rand(1, 9) . rand(1, 9) . rand(1, 9) . rand(1, 9);
         $order = O::where("status", 0)->select()->toArray();
-        foreach ($order as $k => $v){
-            if ($v["create_time"] < (time()-$this->data["c"]["close_time"]) ){
-                if ($v["money"] == $reallyMoney){
-                    $reallyMoney ++;
-                }else{
+        foreach ($order as $k => $v) {
+            if ($v["create_time"] < (time() - $this->data["c"]["close_time"])) {
+                if ($v["money"] == $reallyMoney) {
+                    $reallyMoney++;
+                } else {
                     break;
                 }
-            }else{
+            } else {
                 break;
             }
         }
@@ -109,9 +110,9 @@ class Pay extends Base
             "status" => 0,
         ];
         $res = O::insert($db);
-        if ($res){
+        if ($res) {
             exit("<script>window.location.href='/Pay/console?trade_no={$trade_no}';</script>");
-        }else{
+        } else {
             View::assign('error_tips', "订单生成错误,请重新发起支付");
             return $this->fetch();
         }
@@ -141,12 +142,12 @@ class Pay extends Base
             $res['money'] = number_format($res['money'], 2, ".", "");
             $res['really_money'] = number_format($res['really_money'], 2, ".", "");
 
-            $u = $this->create_call($res,$key);
+            $u = $this->create_call($res, $key);
             return json(['code' => 200, 'msg' => '订单支付成功!', 'url' => $u['return']]);
         }
         $db = O::where("trade_no", $trade_no)->find();
         $pay_url = C::where("type", $db["type"])->select()->toArray();
-        $pay_url = $pay_url[rand(0, (count($pay_url) -1) )]["url"];  //随机取一条收款码
+        $pay_url = $pay_url[rand(0, (count($pay_url) - 1))]["url"];  //随机取一条收款码
         $time = $this->data["c"]["close_time"]; //订单关闭时间
         $type = $db['type']; //支付类型
         $money = $db['really_money']; //支付金额
@@ -160,8 +161,7 @@ class Pay extends Base
             "payurl" => $pay_url,
             "time" => $time,
             "tips" => $tips,
-            "yuyin" => $yuyin
-            ,"name" =>$name
+            "yuyin" => $yuyin, "name" => $name
         ]);
         return View::fetch();
     }
