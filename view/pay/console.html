@@ -56,10 +56,23 @@
                         </div>
                         <p>商品名称：{$name}</p>
 
+                        {if $Request.isMobile}
+                            {if $type == "alipay"}
+                            <a class="btn btn-info" href="{$payurl}">
+                                启动支付宝
+                            </a>
+                            {else if $type == "wxpay}
+                            <a href="weixin://">
+                                启动微信
+                            </a>
+                            {/if}
+                        {/if}
+
                         <p class="fs-lg fw-semibold mb-0"><font style="vertical-align: inherit; color: red"><font
                                 style="vertical-align: inherit;">
                             请付款{$money}元，注意不能多付或少付!
-                        </font></font></p>
+                        </font></font>
+                        </p>
                         <p class="fs-lg fw-semibold mb-0" id="time">
 
                         </p>
