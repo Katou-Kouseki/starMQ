@@ -67,6 +67,7 @@ class Order extends Base
         if ($this->data["c"]["callback"] == "1") $res = Http::post($url["notify"]);
         if ($res == "success"){
             $this->writelog("补单", 1);
+            O::where("id", $id)->update(["status"=>1,"pay_time" => time()]);
             return $this->ResJson(["code" => 200, "msg" => "补单成功!", "data" => NULL]);
         }
         if ($res == "fail"){

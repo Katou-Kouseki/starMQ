@@ -71,28 +71,20 @@ class Pay extends Base
             return View::fetch();
         }
         $appjk = $this->data["c"]["app_status"]; //app监控状态
-
         if ($appjk != "1") {
             View::assign('error_tips', "监控端状态异常，请检查");
             return View::fetch();
         }
-        $reallyMoney = bcmul($data["money"], 100);
+        $reallyMoney = $data["money"];
 
         $trade_no = "S-" . date("YmdHis") . rand(1, 9) . rand(1, 9) . rand(1, 9) . rand(1, 9);
         $order = O::where("status", 0)->select()->toArray();
+        $t = time() - $this->data["c"]["close_time"];
         foreach ($order as $k => $v) {
-            if ($v["create_time"] < (time() - $this->data["c"]["close_time"])) {
-                if ($v["money"] == $reallyMoney) {
-                    $reallyMoney++;
-                } else {
-                    break;
-                }
-            } else {
-                break;
+            if ($v["create_time"] > $t and $v["really_money"] == $reallyMoney) {
+                $reallyMoney += 0.01;
             }
         }
-
-        $reallyMoney = bcdiv($reallyMoney, 100, 2);
 
         $db = [
             "create_time" => time(),

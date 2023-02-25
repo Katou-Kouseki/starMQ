@@ -50,15 +50,20 @@ class Code extends Base
         $type   = $request->post("type");
         $jk     = $request->post("jk");
         $file   = $request->file("imgcode");
-        $save   = F::disk('public')->putFile( 'upload', $file);
-        $path   = $request->domain() . "/" . $save; //二维码网络路径
-        $code   = $this->deqr($path);
-        unlink( root_path() ."public" . DS . $save); //删除文件
-        if (!$code) {
-            return $this->ResJson(["code" => 201, "msg" => "解析失败,裁剪后重试!", "data" => NULL]);
-        }
+        $code   = $request->post("code");
         $D      = new D();
-        $res    = $D->save(["url" => $code, "type" => $type, "jk" => $jk, "time" => time(), "status" => 1]);
+        if (empty($code)) {
+            $save = F::disk('public')
+                     ->putFile('upload', $file);
+            $path = $request->domain() . "/" . $save; //二维码网络路径
+            $code = $this->deqr($path);
+            unlink(root_path() . "public" . DS . $save); //删除文件
+            if (!$code) {
+                return $this->ResJson(["code" => 201, "msg" => "解析失败,请手动添加!", "data" => NULL]);
+            }
+            $res = $D->save(["url" => $code, "type" => $type, "jk" => $jk, "time" => time(), "status" => 1]);
+        }
+        $res = $D->save(["url" => $code, "type" => $type, "jk" => $jk, "time" => time(), "status" => 1]);
         if ($res){
             $this->writelog("新增通道", 1);
             return $this->ResJson(["code" => 200, "msg" => "新增成功!", "data" => NULL]);
@@ -99,6 +104,7 @@ class Code extends Base
     private function deqr($path)
     {
         $res = json_decode(Http::get("https://cli.im/Api/Browser/deqr?data=" . $path), true);
+        if ($res == NULL) return false;
         if ($res["status"] == 1){
             return $res["data"]["RawData"];
         }else{

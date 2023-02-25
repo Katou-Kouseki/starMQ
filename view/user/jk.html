@@ -28,90 +28,93 @@
         <div class="block-content">
             <table class="table table-hover table-vcenter">
                 <tbody>
-                <tr>
-                    <td class="text-center text-info">APP监控端状态</td>
-                    <td class="text-center">
-                        {if $c.app_status == 1}
-                        <span class="badge bg-success">正常</span>
-                        {else}
-                        <span class="badge bg-danger">异常</span>
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center text-info">APP心跳时间</td>
-                    <td class="text-center">
-                        {if $c.app_heart == 0}
-                        <span class="badge bg-danger">异常</span>
-                        {else}
-                        <span class="badge bg-success">{$c.app_heart|date='Y-m-d H:i:s'}</span>
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center text-info">PCWX监控端状态</td>
-                    <td class="text-center">
-                        {if $c.pc_status == 1}
-                        <span class="badge bg-success">正常</span>
-                        {else}
-                        <span class="badge bg-danger">异常</span>
-                        {/if}
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center text-info">PC心跳时间</td>
-                    <td class="text-center">
-                        {if $c.pc_heart == 0}
-                        <span class="badge bg-danger">异常</span>
-                        {else}
-                        <span class="badge bg-success">{$c.pc_heart|date='Y-m-d H:i:s'}</span>
-                        {/if}
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="text-center text-info">APP监控端状态</td>
+                        <td class="text-center">
+                            {if $c.app_status == 1}
+                            <span class="badge bg-success">正常</span>
+                            {else}
+                            <span class="badge bg-danger">异常</span>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-info">APP心跳时间</td>
+                        <td class="text-center">
+                            {if $c.app_heart == 0}
+                            <span class="badge bg-danger">异常</span>
+                            {else}
+                            <span class="badge bg-success">{$c.app_heart|date='Y-m-d H:i:s'}</span>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-info">PCWX监控端状态</td>
+                        <td class="text-center">
+                            {if $c.pc_status == 1}
+                            <span class="badge bg-success">正常</span>
+                            {else}
+                            <span class="badge bg-danger">异常</span>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center text-info">PC心跳时间</td>
+                        <td class="text-center">
+                            {if $c.pc_heart == 0}
+                            <span class="badge bg-danger">异常</span>
+                            {else}
+                            <span class="badge bg-success">{$c.pc_heart|date='Y-m-d H:i:s'}</span>
+                            {/if}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <div class="row">
 
-    <div class="block block-rounded animated fadeIn">
-        <div class="block-content">
-            <div class="mb-4 col-sm-12">
-                <label class="form-label text-info">APP通知地址</label>
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-alt fs-sm" value="{$Request.domain}" readonly="">
-                    <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;" href="javascript:;"
-                       data-clipboard-text="{Request.domain}" title="点击复制">
-                        <i class="far fa-copy"></i>
-                    </a>
-                </div>
-            </div>
-                <div class="mb-4 col-sm-12">
-                    <label class="form-label text-info">通讯密钥</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-alt fs-sm" value="{$c.appkey}" readonly="">
-                        <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;" href="javascript:;"
-                           data-clipboard-text="{$c.appkey}" title="点击复制">
-                            <i class="far fa-copy"></i>
-                        </a>
+        <div class="col-xl-6">
+            <div class="block block-rounded animated fadeIn">
+                <div class="block-content">
+                    <div class="mb-4 col-sm-12">
+                        <label class="form-label text-info">APP通知地址</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-alt fs-sm" value="{$Request.domain}"
+                                readonly="">
+                            <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;"
+                                href="javascript:;" data-clipboard-text="{Request.domain}" title="点击复制">
+                                <i class="far fa-copy"></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="mb-4 col-sm-12">
-                    <label class="form-label text-info">计划任务监控地址（ 一分钟监控一次）</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-alt fs-sm" value="{$Request.domain}/job" readonly="">
-                        <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;" href="javascript:;"
-                           data-clipboard-text="{$Request.domain}/job" title="点击复制">
-                            <i class="far fa-copy"></i>
-                        </a>
+                    <div class="mb-4 col-sm-12">
+                        <label class="form-label text-info">通讯密钥</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-alt fs-sm" value="{$c.appkey}"
+                                readonly="">
+                            <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;"
+                                href="javascript:;" data-clipboard-text="{$c.appkey}" title="点击复制">
+                                <i class="far fa-copy"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-4 col-sm-12">
+                        <label class="form-label text-info">计划任务监控地址（ 一分钟监控一次）</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-alt fs-sm" value="{$Request.domain}/job"
+                                readonly="">
+                            <a class="btn btn-sm btn-alt-info copy-btn copy" style="padding-top: 6px;"
+                                href="javascript:;" data-clipboard-text="{$Request.domain}/job" title="点击复制">
+                                <i class="far fa-copy"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-    <div class="row">
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-6">
             <a class="block block-rounded block-link-shadow" href="javascript:void(0)">
                 <div class="block-content block-content-full text-center">
                     <div class="p-1 mb-3">
