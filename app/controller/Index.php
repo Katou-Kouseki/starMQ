@@ -27,13 +27,12 @@ class Index extends Base
         $t = input("t");
         $_sign = $t . $key;
         if (md5($_sign) != input("sign")) {
-            return json(["code" => -1, "msg" => "签名校验不通过", "data" => null]);
+            return $this->ResJson(["code" => -1, "msg" => "签名校验不通过", "data" => NULL]);
         }
         C::where("key", "app_heart")->update(["val" => time()]);
-        C::where("key", "app_status")->update(["val" => 1]);
-        return json(["code" => 1, "msg" => "成功", "data" => null]);
+        C::where("key", "app_status")->update(["val" => "1"]);
+        return $this->ResJson(["code" => 1, "msg" => "成功", "data" => NULL]);
     }
-
 
     //App推送付款数据接口
     public function appPush()
@@ -44,7 +43,7 @@ class Index extends Base
         $money = input("money");
         $_sign = $type . $money . $t . $key;
         if (md5($_sign) != input("sign")) {
-            return json(["code" => -1, "msg" => "签名校验不通过", "data" => null]);
+            return $this->ResJson(["code" => -1, "msg" => "签名校验不通过", "data" => NULL]);
         }
 
         $res = \app\model\Order::where("really_money", $money)
@@ -82,11 +81,10 @@ class Index extends Base
     public function job()
     {
         if ((time() - 60) > $this->data["c"]["app_heart"]){
-            C::where("key", "app_status")->update(["val" => 0]);
-            C::where("key", "app_heart")->update(["val" => 0]);
+            C::where("key", "app_status")->update(["val" => "0"]);
+            C::where("key", "app_heart")->update(["val" => "0"]);
             if ($this->data["c"]["is_tips"] == "1"){
                 $this->mail("APP监控异常");
-                return;
             }
             echo '{"code": 201, "msg": "APP监控异常", "time": '.time().'}\n';
         } else{
