@@ -65,12 +65,13 @@ class Index extends Base
                 $re = Http::post($u['notify']);
             }
             if ($re == "success") {
-                return json(["code" => 1, "msg" => "成功", "data" => null]);
+                return $this->ResJson(["code" => 1, "msg" => "成功!", "data" => NULL]);
             } else {
                 \app\model\Order::where("id", $res['id'])->update(["state" => 0]);
-                return json(["code" => 1, "msg" => "异步通知失败", "data" => null]);
+                return $this->ResJson(["code" => 0, "msg" => "异步通知失败!", "data" => NULL]);
             }
         }
+        return $this->ResJson(["code" => 1, "msg" => "推送失败!", "data" => NULL]);
     }
 
     /**
@@ -82,6 +83,7 @@ class Index extends Base
     {
         if ((time() - 60) > $this->data["c"]["app_heart"]){
             C::where("key", "app_status")->update(["val" => 0]);
+            C::where("key", "app_heart")->update(["val" => 0]);
             if ($this->data["c"]["is_tips"] == "1"){
                 $this->mail("APP监控异常");
                 return;

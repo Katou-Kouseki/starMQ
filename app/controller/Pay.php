@@ -20,7 +20,6 @@ class Pay extends Base
 {
     public function submit()
     {
-        //        $this->closeEndOrder();
         $key = $this->data["c"]["appkey"];
         $data = Request::param('', '', 'strip_tags');
         if (empty($data['pid'])) {
@@ -153,7 +152,8 @@ class Pay extends Base
             "payurl" => $pay_url,
             "time" => $time,
             "tips" => $tips,
-            "yuyin" => $yuyin, "name" => $name
+            "yuyin" => $yuyin,
+            "name" => $name
         ]);
         return View::fetch();
     }

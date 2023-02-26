@@ -139,10 +139,11 @@
                 if (res.code == 200) {
                     setTimeout(() => {
                         window.location.reload();
-                    }, 2000);
+                    }, 500);
                     notify(res.msg, "success");
                 } else {
                     recode(); //刷新验证码
+                    $("#captcha").val("");
                     notify(res.msg, "danger");
                 }
             },
@@ -150,6 +151,7 @@
                 $("#login").html('登入');
                 $("#login").attr('disabled', false);
                 recode();//刷新验证码
+                $("#captcha").val("");
                 notify(errorThrown, "danger");
             }
         });

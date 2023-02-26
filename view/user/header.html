@@ -303,7 +303,11 @@
 </script>
 
 
-
+{if $c.appkey == ""}
+<script>
+    layer.alert("第一次请点击重置密钥生成密钥!");
+</script>
+{/if}
 
 </body>
 

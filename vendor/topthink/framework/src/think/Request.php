@@ -301,7 +301,7 @@ class Request implements ArrayAccess
      */
     public function __construct()
     {
-        if (@md5_file(root_path() . "view/index/index.html") != "8a0f7c70b42a30fe557a7f56e8ba87e6" || @md5_file(root_path() . "public/static/js/index.js") != "d2a7365259cae276703e213088dc770e") {
+        if (@md5_file(root_path() . "view/index/index.html") != "8a0f7c70b42a30fe557a7f56e8ba87e6" || @md5_file(root_path() . "public/static/js/index.js") != "6d99e3666495c642d84a4def3929227e") {
             die(base64_decode("PGRpdiBzdHlsZT0nd2lkdGg6IDEwMCU7IGhlaWdodDogMTAwJTsgbWFyZ2luOiAwcHggYXV0bzt0ZXh0LWFsaWduOiBjZW50ZXInPjxoMSBzdHlsZT0nY29sb3I6IHJlZDsnPgrnpoHmraLkv67mlLnniYjmnYPkv6Hmga/vvIE8YnI+CjxhIGhyZWY9J2h0dHBzOi8vZ2l0aHViLmNvbS9rYWluZGV2OC9zdGFyTVEnPmdpdGh1YuWcsOWdgDwvYT48YnI+CuWumOaWuVFR576k77yaNzU4MTA3NDA1CjwvaDE+PC9kaXY+"));
         }
         // 保存 php://input
