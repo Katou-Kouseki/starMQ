@@ -17,6 +17,7 @@
 | 酷库博客(QQ：8670468)      | https://www.zxki.cn/wzym/5567.html         | 修改版权信息             |
 | K1 源码(QQ：3647255)       | https://www.k1ym.com/18526.html            | 恶意倒卖                 |
 | 绮梦资源网(QQ：2152443500) | https://www.qmo6.com/19790.html            | 修改版权(提醒后仍不改回) |
+| 爱集码(QQ：3521978268)     | https://www.ajmwz.com/15289.html           | 恶意倒卖                 |
 
 ## 介绍
 
