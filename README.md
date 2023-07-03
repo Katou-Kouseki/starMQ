@@ -28,7 +28,6 @@
 - 拒绝高风险的扫码登录方式，采用 APP 监听系统收款通知方案，更安全可靠！
 - 基于[ThinkPHP](https://www.thinkphp.cn/)框架开发
 
-## 本项目由[星云数据](https://cloud.staridc.cn)独家赞助！
 
 ## 运行环境
 
